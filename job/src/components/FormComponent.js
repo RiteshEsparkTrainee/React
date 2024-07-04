@@ -42,29 +42,19 @@ export const MySelect = ({ label, ...props }) => {
   );
 };
 
-export const MyRadioGroup = ({ label, name, options }) => {
-  const [field, meta, helpers] = useField(name);
-  
-  return (
-    <div>
-      <label>{label}</label>
-      <div role="group" aria-labelledby={label}>
-        {options.map((option) => (
-          <label key={option.value}>
-            <input
-              type="radio"
-              name={field.name}
-              value={option.value}
-              checked={field.value === option.value}
-              onChange={() => helpers.setValue(option.value)}
-            />
-            {option.label}
-          </label>
-        ))}
+
+
+  export const MyRadioGroup = ({ label, ...props }) => {
+    const [field, meta] = useField(props);
+    return (
+      <div>
+        <label>{label}</label>
+        <div role="group" {...field} {...props}>
+          {props.children}
+        </div>
+        {meta.touched && meta.error ? (
+          <div className="error">{meta.error}</div>
+        ) : null}
       </div>
-      {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
-      ) : null}
-    </div>
-  );
-};
+    );
+  };
